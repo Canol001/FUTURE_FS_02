@@ -1,41 +1,40 @@
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const multer = require('multer');
-const Recipe = require('./models/Recipe');
 const cors = require('cors');
-
+const Recipe = require('./models/Recipe');
 
 const app = express();
-const PORT = 3000;
-
-app.use(cors());
-
-// Set up multer for handling file uploads
-const upload = multer({ dest: 'uploads/' }); // Files will be saved in the 'uploads' directory
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/foodDB';
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/foodDB', {
+mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-}).then(() => console.log('MongoDB connected'))
-  .catch(err => console.log(err));
+}).then(() => console.log('✅ MongoDB Connected'))
+  .catch(err => console.error('❌ MongoDB Connection Error:', err));
 
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Static files
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.json()); // To parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // To parse URL-encoded data
-
-// Serve uploaded files as static
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// Serve static pages
+// Multer for file uploads
+const upload = multer({ dest: 'uploads/' });
+
+// Serve HTML pages
+const pages = ['index', 'recipe-detail', 'favourites', 'about', 'contact', 'upload', 'featured-recipe'];
+pages.forEach(page => app.get(`/${page}`, (req, res) => res.sendFile(path.join(__dirname, 'views', `${page}.html`))));
+
 app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
-app.get('/recipe-detail', (req, res) => res.sendFile(path.join(__dirname, 'views', 'recipe-detail.html')));
-app.get('/favourites', (req, res) => res.sendFile(path.join(__dirname, 'views', 'favourites.html')));
-app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'views', 'about.html')));
-app.get('/contact', (req, res) => res.sendFile(path.join(__dirname, 'views', 'contact.html')));
-app.get('/upload', (req, res) => res.sendFile(path.join(__dirname, 'views', 'upload.html')));
-app.get('/featured-recipe', (req, res) => res.sendFile(path.join(__dirname, 'views', 'featured-recipe.html')));
+// API Routes
 
 // Fetch all recipes
 app.get('/api/recipes', async (req, res) => {
@@ -43,7 +42,7 @@ app.get('/api/recipes', async (req, res) => {
         const recipes = await Recipe.find();
         res.json(recipes);
     } catch (error) {
-        res.status(500).json({ message: "Error fetching recipes" });
+        res.status(500).json({ message: "Error fetching recipes", error });
     }
 });
 
@@ -54,8 +53,7 @@ app.get('/api/recipe/:id', async (req, res) => {
         if (!recipe) return res.status(404).json({ message: "Recipe not found" });
         res.json(recipe);
     } catch (error) {
-        console.error("Error fetching recipe:", error);
-        res.status(500).json({ message: "Error fetching recipe" });
+        res.status(500).json({ message: "Error fetching recipe", error });
     }
 });
 
@@ -74,8 +72,7 @@ app.get('/api/recipes/search', async (req, res) => {
 
         res.json(recipes);
     } catch (error) {
-        console.error("Error searching recipes:", error);
-        res.status(500).json({ message: "Error searching recipes" });
+        res.status(500).json({ message: "Error searching recipes", error });
     }
 });
 
@@ -97,62 +94,41 @@ app.get('/api/recipes/related', async (req, res) => {
 
         res.json(relatedRecipes);
     } catch (error) {
-        console.error("Error fetching related recipes:", error);
-        res.status(500).json({ message: "Error fetching related recipes" });
+        res.status(500).json({ message: "Error fetching related recipes", error });
     }
 });
 
-
-// ✅ Upload recipe API
+// Upload a new recipe
 app.post('/api/recipes/upload', upload.single('image'), async (req, res) => {
     try {
         const { name, description, prepTime, ingredients, procedure } = req.body;
         const image = req.file ? `/uploads/${req.file.filename}` : null;
 
-        // Ensure ingredients and procedure are parsed as arrays
-        let ingredientsArray = [];
-        let procedureArray = [];
-
-        try {
-            ingredientsArray = JSON.parse(ingredients);
-        } catch (error) {
-            // Handle error if ingredients are not a valid array string
-            return res.status(400).json({ error: 'Ingredients must be a valid array' });
-        }
-
-        try {
-            procedureArray = JSON.parse(procedure);
-        } catch (error) {
-            // Handle error if procedure is not a valid array string
-            return res.status(400).json({ error: 'Procedure must be a valid array' });
-        }
-
-        if (!name || !description || !image || !prepTime || !ingredientsArray.length || !procedureArray.length) {
+        if (!name || !description || !image || !prepTime || !ingredients || !procedure) {
             return res.status(400).json({ error: 'All fields are required!' });
         }
 
-        // Create a new recipe object with ingredients and procedure as proper arrays
+        const ingredientsArray = JSON.parse(ingredients);
+        const procedureArray = JSON.parse(procedure);
+
         const newRecipe = new Recipe({
             name,
             description,
             image,
             prepTime,
-            ingredients: ingredientsArray, // Store as an array
-            procedure: procedureArray, // Store as an array
+            ingredients: ingredientsArray,
+            procedure: procedureArray
         });
 
         await newRecipe.save();
         res.status(201).json({ message: 'Recipe uploaded successfully!', recipe: newRecipe });
 
     } catch (error) {
-        console.error('Error uploading recipe:', error);
-        res.status(500).json({ message: 'Error uploading recipe', error: error.message });
+        res.status(500).json({ message: 'Error uploading recipe', error });
     }
 });
 
-
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server running at http://localhost:${PORT}`);
-    console.log(`Access from mobile: http://<YOUR_LOCAL_IP>:${PORT}`);
+app.listen(PORT, () => {
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
