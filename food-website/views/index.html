@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flavorista</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <!-- Custom CSS for additional styling -->
+    <style>
+      ::selection {
+          background-color: #efe819;
+          color: rgb(0, 156, 21);
+      }
+
+      @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fadeInUp {
+        animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+     /* Tailwind Utility Classes */
+    .category-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 8rem;
+      margin-left: 20px;
+  }
+
+  .category-img {
+      width: 8rem;
+      height: 8rem;
+      border-radius: 9999px;
+      border: 4px solid #ddd;
+      overflow: hidden;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .category-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+  }
+
+  /* Hide scrollbar for better UI */
+  .scrollbar-hide::-webkit-scrollbar {
+      display: none;
+  }
+  .scrollbar-hide {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+  }
+  </style>
+  
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+  <div class="flex-grow">
+    <!-- Navigation Bar -->
+    <nav class="bg-green-500 p-5">
+      <div class="container mx-auto flex justify-between items-center">
+          <!-- Logo -->
+          <a href="#" class="text-white text-2xl font-bold">Flavorista</a>
+          <!-- Navigation Links -->
+          <div class="hidden md:flex space-x-4">
+              <a href="/" class="text-white hover:text-gray-200">Home</a>
+              <a href="/favourites" class="text-white hover:text-gray-200">Favourites</a>
+              <a href="/about" class="text-white hover:text-gray-200">About</a>
+              <a href="/contact" class="text-white hover:text-gray-200">Contact</a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+            <i class="fa fa-bars fa-2x"></i>
+        </button>
+      </div>
+      <!-- Mobile Navigation Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-green-500">
+          <a href="/" class="block text-white px-4 py-2">Home</a>
+          <a href="/favourites" class="block text-white px-4 py-2">Favourites</a>
+          <a href="/about" class="block text-white px-4 py-2">About</a>
+          <a href="/contact" class="block text-white px-4 py-2">Contact</a>
+      </div>
+  </nav>
+ <!-- Hero Section -->
+ <header class="bg-green-600 text-white text-center py-20 md:py-28">
+  <div class="container mx-auto px-6">
+      <h1 class="text-5xl md:text-6xl font-extrabold tracking-wide">Find Your Perfect Recipe</h1>
+      <p class="text-lg md:text-2xl mt-4 text-gray-200">
+          Explore a world of delicious and easy-to-follow recipes curated just for you.
+      </p>
+
+      <!-- Search Bar -->
+      <div class="mt-8 flex justify-center">
+          <div class="relative w-full max-w-lg">
+              <input type="text" id="search-input" 
+                  class="w-full px-5 py-3 pl-12 rounded-full text-gray-700 focus:outline-none shadow-lg" 
+                  placeholder="Search for recipes...">
+              <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+              <button id="search-button" 
+                  class="absolute right-1 top-1/2 transform -translate-y-1/2 bg-green-700 text-white px-6 py-2 rounded-full shadow-md hover:bg-green-800 transition">
+                  Search
+              </button>
+          </div>
+      </div>
+  </div>
+</header>
+
+<!-- Search Results Section -->
+<section id="search-results-section" class="container mx-auto p-6 hidden">
+  <h2 class="text-3xl font-bold text-center mb-6 text-gray-800">Search Results</h2>
+  <div id="search-results" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <!-- Search results will be displayed here -->
+  </div>
+</section>
+
+
+<!-- Food Categories Section -->
+<section class="bg-gray-50 py-12">
+  <div class="container mx-auto">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">🍽️ Browse by Category</h2>
+
+      <!-- Scrollable Wrapper -->
+      <div class="relative overflow-x-auto scrollbar-hide">
+          <div class="flex justify-center lg:justify-center space-x-3 max-w-screen-lg mx-auto">
+              <!-- Categories -->
+              <button onclick="fetchRecipesByCategory('Breakfast')" class="category-card">
+                  <div class="category-img">
+                      <img src="/images/chapati.jpg" alt="Breakfast">
+                  </div>
+                  <p>Breakfast</p>
+              </button>
+
+              <button onclick="fetchRecipesByCategory('Snack')" class="category-card">
+                  <div class="category-img">
+                      <img src="/images/mandazi.jpg" alt="Snack">
+                  </div>
+                  <p>Snack</p>
+              </button>
+
+              <button onclick="fetchRecipesByCategory('Lunch')" class="category-card">
+                  <div class="category-img">
+                      <img src="/images/pilau.jpg" alt="Lunch">
+                  </div>
+                  <p>Lunch</p>
+              </button>
+
+              <button onclick="fetchRecipesByCategory('Mid Afternoon')" class="category-card">
+                  <div class="category-img">
+                      <img src="/images/mutura.jpg" alt="Mid Afternoon">
+                  </div>
+                  <p>Mid Afternoon</p>
+              </button>
+
+              <button onclick="fetchRecipesByCategory('Dinner')" class="category-card">
+                  <div class="category-img">
+                      <img src="/images/ugali.jpg" alt="Dinner">
+                  </div>
+                  <p>Dinner</p>
+              </button>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+
+
+<section class="container mx-auto p-6 md:p-12 bg-white rounded-lg shadow-lg mt-6">
+  <div class="bg-white rounded-lg shadow-md flex flex-col md:flex-row">
+      <!-- Image Section -->
+      <img src="/images/shakshuka.jpg" alt="Shakshuka" class="rounded-t-lg md:rounded-l-lg md:rounded-t-none w-full md:w-1/2 h-64 md:h-auto object-cover">
+      
+      <!-- Text Section -->
+      <div class="p-8 flex flex-col justify-center md:w-1/2">
+          <h2 class="text-3xl font-bold text-gray-800">🌟 Featured Recipe: Shakshuka</h2>
+          <p class="mt-4 text-gray-600 leading-relaxed">
+              Shakshuka is a flavorful, rich dish of **eggs poached in a spicy tomato sauce**, originating from North Africa and the Middle East. 
+              Packed with aromatic spices, bell peppers, and garlic, this dish is perfect for breakfast, brunch, or a light dinner.
+          </p>
+          <p class="mt-4 text-gray-600 leading-relaxed">
+              Served best with **warm bread or chapati**, Shakshuka is easy to prepare and incredibly satisfying!
+          </p>
+          <a href="/featured-recipe" class="w-full md:w-48 text-center mt-6 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 shadow-md">Read More</a>
+      </div>
+  </div>
+</section>
+
+
+
+<section class="bg-yellow-200 container mx-auto p-6 md:p-12">
+  <h2 class="text-2xl font-semibold text-center mb-6">Recent Recipes</h2>
+  <div id="recent-list" class="recipe-card grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Recipes will be inserted here dynamically -->
+  </div>
+</section>
+
+<section class="bg-green-100 container mx-auto p-6 md:p-12">
+  <h2 class="text-2xl font-semibold text-center mb-6">Other Recipes</h2>
+  <div id="recipes-list" class="recipe-card grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Recipes will be inserted here dynamically -->
+  </div>
+</section>
+
+
+    <!-- Food List Section -->
+    <section class="container mx-auto p-6 md:p-12">
+      <h2 class="text-2xl font-semibold text-center mb-6">Most popular recipes</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Food Item 3 -->
+              <div class="relative bg-white rounded-lg shadow-md overflow-hidden">
+                <img src="/images/chapati.jpg" alt="Chapati" class="w-full h-48 object-cover">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold">Chapati</h2>
+                    <p class="mt-2 text-gray-700">Soft and layered flatbread, a staple in East African cuisine, perfect to accompany any meal.</p>
+                </div>
+                <!-- Preparation Time -->
+                <div class="absolute bottom-2 right-2 flex items-center bg-white bg-opacity-75 px-2 py-1 rounded-full shadow">
+                    <i class="fas fa-clock text-gray-600 mr-1"></i>
+                    <span class="text-gray-700 text-sm">30 mins</span>
+                </div>
+              </div>
+
+        </div>
+    </section>
+
+  </div>
+    <!-- Footer -->
+<footer class="bg-green-800 text-gray-300 mt-10">
+  <div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+      
+      <!-- Brand & About -->
+      <div>
+          <h3 class="text-white text-2xl font-bold">Flavorista</h3>
+          <p class="mt-3 text-gray-400">Discover and share amazing recipes with ease. Your culinary adventure starts here.</p>
+      </div>
+
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-white font-semibold">Quick Links</h4>
+        <ul class="mt-3 space-y-2">
+            <li><a href="/" class="hover:underline">Home</a></li>
+            <li><a href="/favourites" class="hover:underline">Favourites</a></li>
+            <li><a href="/about" class="hover:underline">About Us</a></li>
+            <li><a href="/contact" class="hover:underline">Contact</a></li>
+        </ul>
+    </div>
+
+      <!-- Social Media -->
+      <div>
+          <h4 class="text-white font-semibold">Follow Us</h4>
+          <div class="flex space-x-4 mt-3">
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-lg"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube fa-lg"></i></a>
+          </div>
+      </div>
+
+      <!-- Newsletter -->
+      <div>
+          <h4 class="text-white font-semibold">Newsletter</h4>
+          <p class="text-gray-400 mt-3">Subscribe for the latest recipes and updates.</p>
+          <form class="mt-4 flex">
+              <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l bg-green-200 text-white border border-gray-600 focus:outline-none">
+              <button class="bg-green-500 text-white px-4 py-2 rounded-r hover:bg-green-600">Subscribe</button>
+          </form>
+      </div>
+
+  </div>
+
+  <!-- Copyright -->
+  <div class="border-t border-gray-700 mt-8 py-4 text-center text-gray-500 text-sm">
+      &copy; 2025 Flavorista. All Rights Reserved.
+  </div>
+</footer>
+
+
+    <!-- JavaScript for Mobile Menu Toggle -->
+    <script>
+      const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      mobileMenuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+      });
+
+
+      document.addEventListener("DOMContentLoaded", function () {
+        async function fetchRecipes() {
+            try {
+                const response = await fetch('/api/recipes');
+                if (!response.ok) throw new Error("Failed to fetch");
+                
+                const recipes = await response.json();
+                const recipesList = document.getElementById('recipes-list');
+    
+                if (!recipesList) {
+                    console.error("Element #recipes-list not found!");
+                    return;
+                }
+    
+                recipesList.innerHTML = recipes.map(recipe => `
+                    <div class="relative bg-white rounded-lg shadow-md overflow-hidden">
+                        <!-- Heart Icon for Favorite -->
+                        <button class="absolute top-2 right-2 text-gray-400 hover:text-red-500 text-xl" onclick="toggleFavorite('${recipe._id}', '${recipe.name}', '${recipe.image}')">
+                            <i id="heart-${recipe._id}" class="fas fa-heart"></i>
+                        </button>
+                        
+                        <a href="/recipe-detail?id=${recipe._id}" class="block">
+                            <img src="${recipe.image}" alt="${recipe.name}" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <h2 class="text-xl font-semibold">${recipe.name}</h2>
+                                <p class="mt-2 text-gray-700">${recipe.description}</p>
+                            </div>
+                            <div class="absolute bottom-2 right-2 flex items-center bg-white bg-opacity-75 px-2 py-1 rounded-full shadow">
+                                <i class="fas fa-clock text-gray-600 mr-1"></i>
+                                <span class="text-gray-700 text-sm">${recipe.prepTime}</span>
+                            </div>
+                        </a>
+                    </div>
+                `).join('');
+    
+                // Mark favorite recipes after loading
+                markFavoriteRecipes();
+            } catch (error) {
+                console.error('Error fetching recipes:', error);
+                document.getElementById('recipes-list').innerHTML = "<p class='text-center text-red-500'>Error loading recipes.</p>";
+            }
+        }
+    
+        fetchRecipes();
+    });
+
+    
+
+
+
+    function toggleFavorite(id, name, image) {
+      let favorites = JSON.parse(sessionStorage.getItem("favorites")) || [];
+  
+      const index = favorites.findIndex(recipe => recipe.id === id);
+  
+      if (index === -1) {
+          // Add to favorites
+          favorites.push({ id, name, image });
+          document.getElementById(`heart-${id}`).classList.add("text-red-500");
+      } else {
+          // Remove from favorites
+          favorites.splice(index, 1);
+          document.getElementById(`heart-${id}`).classList.remove("text-red-500");
+      }
+  
+      sessionStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+  
+  // Function to mark already favorite recipes on page load
+  function markFavoriteRecipes() {
+      let favorites = JSON.parse(sessionStorage.getItem("favorites")) || [];
+  
+      favorites.forEach(recipe => {
+          const heartIcon = document.getElementById(`heart-${recipe.id}`);
+          if (heartIcon) {
+              heartIcon.classList.add("text-red-500");
+          }
+      });
+  }
+  
+    
+
+
+
+
+  document.getElementById("search-button").addEventListener("click", () => {
+    const query = document.getElementById("search-input").value.trim().toLowerCase();
+    const resultsSection = document.getElementById("search-results-section");
+    const resultsContainer = document.getElementById("search-results");
+
+    if (!query) {
+        resultsSection.classList.add("hidden"); // Hide section if input is empty
+        return;
+    }
+
+    fetch(`/api/recipes/search?q=${query}`)
+        .then(response => {
+            if (!response.ok) throw new Error("No results found");
+            return response.json();
+        })
+        .then(recipes => {
+            resultsContainer.innerHTML = ""; // Clear previous results
+
+            if (recipes.length === 0) {
+                resultsContainer.innerHTML = "<p class='text-red-500 text-center'>No matching recipes found.</p>";
+                resultsSection.classList.add("hidden"); // Hide section if no results
+                return;
+            }
+
+            // Show the section when results exist
+            resultsSection.classList.remove("hidden");
+
+            recipes.forEach(recipe => {
+                const recipeCard = document.createElement("div");
+                recipeCard.className = "bg-white shadow-md rounded-lg overflow-hidden";
+
+                recipeCard.innerHTML = `
+                    <a href="/recipe-detail?id=${recipe._id}">
+                        <img src="${recipe.image}" alt="${recipe.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-xl font-semibold">${recipe.name}</h3>
+                            <p class="text-gray-600 text-sm mt-1">${recipe.description.substring(0, 80)}...</p>
+                            <div class="mt-2 text-green-600 text-sm flex items-center">
+                                <i class="fas fa-clock mr-2"></i>
+                                <span>${recipe.prepTime}</span>
+                            </div>
+                        </div>
+                    </a>
+                `;
+
+                resultsContainer.appendChild(recipeCard);
+            });
+        })
+        .catch(error => {
+            console.error("Search error:", error);
+            resultsContainer.innerHTML = "<p class='text-red-500 text-center'>No results found.</p>";
+            resultsSection.classList.add("hidden"); // Hide if search fails
+        });
+});
+
+  
+
+document.addEventListener("DOMContentLoaded", () => {
+  const recipeCards = document.querySelectorAll(".recipe-card");
+
+  const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting && !entry.target.classList.contains("animated")) {
+              entry.target.classList.add("animate-fadeInUp", "animated");
+          }
+      });
+  }, { threshold: 0.3 });
+
+  recipeCards.forEach(card => observer.observe(card));
+});
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const recentList = document.getElementById("recent-list");
+  const recentRecipes = JSON.parse(localStorage.getItem("recentRecipes")) || [];
+
+  if (recentRecipes.length === 0) {
+      recentList.innerHTML = "<p class='text-center'>No recently viewed recipes.</p>";
+      return;
+  }
+
+  recentList.innerHTML = recentRecipes.map(recipe => `
+      <div class="bg-white shadow-lg rounded-lg p-4">
+          <a href="/recipe-detail?id=${recipe.id}">
+              <img src="${recipe.image}" alt="${recipe.name}" class="w-full h-40 object-cover rounded-md">
+              <h3 class="mt-2 font-semibold">${recipe.name}</h3>
+              <p class="text-sm">${recipe.description}</p>
+          </a>
+      </div>
+  `).join('');
+});
+
+  </script>
+  </body>
+</html>
+
+ 

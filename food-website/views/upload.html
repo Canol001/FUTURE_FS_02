@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Recipe | Flavorista</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+    <div class="flex-grow">
+    <!-- Navigation Bar -->
+    <nav class="bg-green-500 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="/" class="text-white text-2xl font-bold">Flavorista</a>
+            <div class="hidden md:flex space-x-4">
+                <a href="/" class="text-white hover:text-gray-200">Home</a>
+                <a href="/favourites" class="text-white hover:text-gray-200">Favourites</a>
+                <a href="/about" class="text-white hover:text-gray-200">About</a>
+                <a href="/contact" class="text-white hover:text-gray-200">Contact</a>
+                <a href="/upload" class="text-white hover:text-gray-200 font-semibold">Upload Recipe</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Upload Recipe Form -->
+    <section class="container mx-auto p-6">
+        <h1 class="text-4xl font-bold text-center text-green-500">Upload Your Recipe</h1>
+        <p class="mt-4 text-center text-gray-700 text-lg">Share your amazing recipe with the world!</p>
+
+        <div class="mt-8 max-w-3xl mx-auto bg-white p-8 shadow-md rounded-lg">
+            <form id="recipeForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Recipe Name</label>
+                    <input type="text" id="name" placeholder="Enter recipe name" class="w-full p-3 border rounded-md focus:ring-green-500 focus:border-green-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Description</label>
+                    <textarea id="description" placeholder="Write a short description..." class="w-full p-3 border rounded-md focus:ring-green-500 focus:border-green-500"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Upload Image</label>
+                    <input type="file" id="image" accept="image/*" class="w-full p-3 border rounded-md">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Preparation Time</label>
+                    <input type="text" id="prepTime" placeholder="e.g., 30 mins" class="w-full p-3 border rounded-md focus:ring-green-500 focus:border-green-500">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Ingredients</label>
+                    <div id="ingredientsContainer" class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="text" class="ingredient-input w-full p-3 border rounded-md focus:ring-green-500 focus:border-green-500" placeholder="Enter ingredient">
+                            <button type="button" class="add-button bg-green-500 text-white p-2 rounded ml-2">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold">Procedure</label>
+                    <div id="procedureContainer" class="space-y-2">
+                        <div class="flex items-center">
+                            <input type="text" class="procedure-input w-full p-3 border rounded-md focus:ring-green-500 focus:border-green-500" placeholder="Enter procedure step">
+                            <button type="button" class="add-button bg-green-500 text-white p-2 rounded ml-2">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full bg-green-500 text-white p-3 rounded-md hover:bg-green-600">
+                    Submit Recipe
+                </button>
+            </form>
+        </div>
+    </section>
+
+</div>
+<!-- Footer -->
+<footer class="bg-green-800 text-gray-300 mt-10">
+<div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+  
+  <!-- Brand & About -->
+  <div>
+      <h3 class="text-white text-2xl font-bold">Flavorista</h3>
+      <p class="mt-3 text-gray-400">Discover and share amazing recipes with ease. Your culinary adventure starts here.</p>
+  </div>
+
+  <!-- Quick Links -->
+  <div>
+      <h4 class="text-white font-semibold">Quick Links</h4>
+      <ul class="mt-3 space-y-2">
+          <li><a href="/" class="hover:underline">Home</a></li>
+          <li><a href="/favourites" class="hover:underline">Favourites</a></li>
+          <li><a href="/about" class="hover:underline">About Us</a></li>
+          <li><a href="/contact" class="hover:underline">Contact</a></li>
+      </ul>
+  </div>
+
+  <!-- Social Media -->
+  <div>
+      <h4 class="text-white font-semibold">Follow Us</h4>
+      <div class="flex space-x-4 mt-3">
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-lg"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
+          <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube fa-lg"></i></a>
+      </div>
+  </div>
+
+  <!-- Newsletter -->
+  <div>
+      <h4 class="text-white font-semibold">Newsletter</h4>
+      <p class="text-gray-400 mt-3">Subscribe for the latest recipes and updates.</p>
+      <form class="mt-4 flex">
+          <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l bg-green-200 text-white border border-gray-600 focus:outline-none">
+          <button class="bg-green-500 text-white px-4 py-2 rounded-r hover:bg-green-600">Subscribe</button>
+      </form>
+  </div>
+
+</div>
+
+<!-- Copyright -->
+<div class="border-t border-gray-700 mt-8 py-4 text-center text-gray-500 text-sm">
+  &copy; 2025 Flavorista. All Rights Reserved.
+</div>
+</footer>
+
+    <script>
+        // Add event listener to dynamically add ingredients or procedure steps
+        document.querySelectorAll('.add-button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const container = event.target.closest('.mb-4').querySelector('.space-y-2');
+                const inputType = event.target.closest('.mb-4').querySelector('label').textContent.trim();
+
+                if (inputType === 'Ingredients') {
+                    // Add new ingredient input
+                    const newInput = document.createElement('div');
+                    newInput.classList.add('flex', 'items-center');
+                    newInput.innerHTML = `
+                        <input type="text" class="ingredient-input w-full p-3 border rounded-md focus:ring-green-500 focus:border-green-500" placeholder="Enter ingredient">
+                        
+                    `;
+                    container.appendChild(newInput);
+                } else if (inputType === 'Procedure') {
+                    // Add new procedure input
+                    const newInput = document.createElement('div');
+                    newInput.classList.add('flex', 'items-center');
+                    newInput.innerHTML = `
+                        <input type="text" class="procedure-input w-full p-3 border rounded-md focus:ring-green-500 focus:border-green-500" placeholder="Enter procedure step">
+                    `;
+                    container.appendChild(newInput);
+                }
+            });
+        });
+
+        document.getElementById("recipeForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+        
+            const name = document.getElementById("name").value;
+            const description = document.getElementById("description").value;
+            const prepTime = document.getElementById("prepTime").value;
+        
+            // Collect all ingredients as an array of strings
+            const ingredients = [];
+            document.querySelectorAll('.ingredient-input').forEach(input => {
+                if (input.value.trim()) {
+                    ingredients.push(input.value.trim()); // Add ingredient as a string
+                }
+            });
+        
+            // Collect all procedure steps as an array of strings
+            const procedure = [];
+            document.querySelectorAll('.procedure-input').forEach(input => {
+                if (input.value.trim()) {
+                    procedure.push(input.value.trim()); // Add procedure step as a string
+                }
+            });
+        
+            const imageInput = document.getElementById("image");
+            const imageFile = imageInput.files[0];
+        
+            const confirmMessage = `Are you sure you want to upload this recipe?\n\n` +
+                `Name: ${name}\n` +
+                `Description: ${description}\n` +
+                `Preparation Time: ${prepTime}\n` +
+                `Ingredients:\n${ingredients.join("\n")}\n` +
+                `Procedure:\n${procedure.join("\n")}`;
+        
+            if (!confirm(confirmMessage)) return;
+        
+            const formData = new FormData();
+            formData.append("name", name);
+            formData.append("description", description);
+            formData.append("prepTime", prepTime);
+            formData.append("ingredients", JSON.stringify(ingredients)); // Send as a proper array
+            formData.append("procedure", JSON.stringify(procedure)); // Send as a proper array
+            if (imageFile) formData.append("image", imageFile);
+        
+            try {
+                const response = await fetch("http://localhost:3000/api/recipes/upload", {
+                    method: "POST",
+                    body: formData,
+                });
+        
+                if (!response.ok) throw new Error("Failed to upload recipe");
+        
+                alert("Recipe uploaded successfully!");
+            } catch (error) {
+                console.error("Upload error:", error);
+                alert("Error uploading recipe. Please try again.");
+            }
+        });
+    </script>
+</body>
+</html>

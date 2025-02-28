@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Flavorista</title>
+    <!-- Include Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Include Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+    <!-- Custom CSS for additional styling -->
+    <style>
+      ::selection {
+          background-color: #efe819;
+          color: rgb(0, 156, 21);
+      }
+  </style>
+  
+</head>
+<body class="bg-gray-100 text-gray-900 flex flex-col min-h-screen">
+  <div class="flex-grow">
+
+    <nav class="bg-green-500 p-5">
+      <div class="container mx-auto flex justify-between items-center">
+          <!-- Logo -->
+          <a href="#" class="text-white text-2xl font-bold">Flavorista</a>
+          <!-- Navigation Links -->
+          <div class="hidden md:flex space-x-4">
+              <a href="/" class="text-white hover:text-gray-200">Home</a>
+              <a href="/favourites" class="text-white hover:text-gray-200">Favourites</a>
+              <a href="/about" class="text-white hover:text-gray-200">About</a>
+              <a href="/contact" class="text-white hover:text-gray-200">Contact</a>
+          </div>
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-button" class="md:hidden text-white focus:outline-none">
+            <i class="fa fa-bars fa-2x"></i>
+        </button>
+      </div>
+      <!-- Mobile Navigation Menu -->
+      <div id="mobile-menu" class="hidden md:hidden bg-green-500">
+          <a href="/" class="block text-white px-4 py-2">Home</a>
+          <a href="/favourites" class="block text-white px-4 py-2">Favourites</a>
+          <a href="/about" class="block text-white px-4 py-2">About</a>
+          <a href="/contact" class="block text-white px-4 py-2">Contact</a>
+      </div>
+  </nav>
+    <!-- Breadcrumbs -->
+    <nav class="container mx-auto mt-4 px-6">
+      <ol class="flex text-sm text-gray-600 space-x-2">
+          <li><a href="/" class="hover:underline">Home</a></li>
+          <span>/</span>
+          <li id="breadcrumb-name" class="text-gray-900 font-medium">About</li>
+      </ol>
+  </nav>
+
+    <!-- About Section -->
+    <section class="container mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <!-- Image -->
+            <img src="/images/nyama_choma.jpg" alt="Cooking" class="rounded-lg shadow-lg w-full">
+            
+            <!-- Text Content -->
+            <div>
+                <h2 class="text-3xl font-bold text-green-600">Who We Are</h2>
+                <p class="mt-4 text-gray-700 leading-relaxed">
+                    Flavorista is your go-to platform for discovering and sharing delicious recipes. Whether you're a seasoned chef or a home cook, our collection of recipes will inspire your next meal.
+                </p>
+                <p class="mt-4 text-gray-700 leading-relaxed">
+                    Our mission is to make cooking accessible, fun, and full of flavor. We believe that great food brings people together, and we're here to help you create unforgettable meals.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="bg-white py-16">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-green-600">Our Values</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-10">
+                <div class="text-center p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-green-500">Quality</h3>
+                    <p class="mt-2 text-gray-600">We ensure every recipe meets high-quality standards for taste and accuracy.</p>
+                </div>
+                <div class="text-center p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-green-500">Creativity</h3>
+                    <p class="mt-2 text-gray-600">We encourage innovation in the kitchen, making cooking exciting and fun.</p>
+                </div>
+                <div class="text-center p-6 bg-gray-100 rounded-lg shadow-md">
+                    <h3 class="text-xl font-semibold text-green-500">Community</h3>
+                    <p class="mt-2 text-gray-600">We foster a community of food lovers who share and celebrate great recipes.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Us Section -->
+    <section class="container mx-auto px-6 py-12 text-center">
+        <h2 class="text-3xl font-bold text-green-600">Join Our Community</h2>
+        <p class="mt-4 text-gray-700 max-w-xl mx-auto">
+            Become part of our growing community of food lovers. Share your recipes, discover new favorites, and enjoy the joy of cooking with Flavorista.
+        </p>
+        <a href="/contact" class="mt-6 inline-block bg-green-500 text-white py-3 px-6 rounded-lg text-lg font-semibold hover:bg-green-600">Contact Us</a>
+    </section>
+    
+  </div>
+  <!-- Footer -->
+<footer class="bg-green-800 text-gray-300 mt-10">
+<div class="container mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
+    
+    <!-- Brand & About -->
+    <div>
+        <h3 class="text-white text-2xl font-bold">Flavorista</h3>
+        <p class="mt-3 text-gray-400">Discover and share amazing recipes with ease. Your culinary adventure starts here.</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h4 class="text-white font-semibold">Quick Links</h4>
+      <ul class="mt-3 space-y-2">
+          <li><a href="/" class="hover:underline">Home</a></li>
+          <li><a href="/favourites" class="hover:underline">Favourites</a></li>
+          <li><a href="/about" class="hover:underline">About Us</a></li>
+          <li><a href="/contact" class="hover:underline">Contact</a></li>
+      </ul>
+  </div>
+
+    <!-- Social Media -->
+    <div>
+        <h4 class="text-white font-semibold">Follow Us</h4>
+        <div class="flex space-x-4 mt-3">
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook fa-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter fa-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram fa-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-youtube fa-lg"></i></a>
+        </div>
+    </div>
+
+    <!-- Newsletter -->
+    <div>
+        <h4 class="text-white font-semibold">Newsletter</h4>
+        <p class="text-gray-400 mt-3">Subscribe for the latest recipes and updates.</p>
+        <form class="mt-4 flex">
+            <input type="email" placeholder="Your email" class="w-full px-4 py-2 rounded-l bg-green-200 text-white border border-gray-600 focus:outline-none">
+            <button class="bg-green-500 text-white px-4 py-2 rounded-r hover:bg-green-600">Subscribe</button>
+        </form>
+    </div>
+
+</div>
+
+<!-- Copyright -->
+<div class="border-t border-gray-700 mt-8 py-4 text-center text-gray-500 text-sm">
+    &copy; 2025 Flavorista. All Rights Reserved.
+</div>
+</footer>
+
+<script>
+  const mobileMenuButton = document.getElementById('mobile-menu-button');
+      const mobileMenu = document.getElementById('mobile-menu');
+
+      mobileMenuButton.addEventListener('click', () => {
+          mobileMenu.classList.toggle('hidden');
+      });
+</script>
+</body>
+</html>
